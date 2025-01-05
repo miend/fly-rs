@@ -22,9 +22,9 @@ pub use resources::{CpuKind, GpuKind, GuestConfig, RestartPolicy, RestartPolicyE
 pub use services::ServiceConfig;
 pub use system::{FileConfig, InitConfig, MetricsConfig, MountConfig, StaticConfig, StopConfig};
 
-use serde::{Deserialize, Serialize};
+use serde::{de, Deserialize, Deserializer, Serialize};
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Clone, Debug, Serialize)]
 #[serde(rename_all = "lowercase")]
 pub struct TimeoutConfig {
     pub duration: u64,
@@ -33,5 +33,39 @@ pub struct TimeoutConfig {
 impl TimeoutConfig {
     pub fn new(duration: u64) -> Self {
         Self { duration }
+    }
+}
+
+impl<'de> Deserialize<'de> for TimeoutConfig {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: Deserializer<'de>,
+    {
+        #[derive(Deserialize, Serialize, Debug)]
+        #[serde(untagged)]
+        enum TimeoutConfigEnum {
+            String(String),
+            Object { duration: u64 },
+        }
+
+        let intermediate = TimeoutConfigEnum::deserialize(deserializer)?;
+
+        match intermediate {
+            TimeoutConfigEnum::String(s) => {
+                let (num_str, unit) = s.split_at(s.len() - 1);
+                let num: u64 = num_str.parse().map_err(de::Error::custom)?;
+
+                let duration = match unit {
+                    "s" => num,
+                    "m" => num * 60,
+                    "h" => num * 3600,
+                    "d" => num * 86400,
+                    _ => return Err(de::Error::custom("Invalid time unit")),
+                };
+
+                Ok(TimeoutConfig::new(duration))
+            }
+            TimeoutConfigEnum::Object { duration } => Ok(TimeoutConfig::new(duration)),
+        }
     }
 }
