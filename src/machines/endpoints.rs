@@ -8,7 +8,7 @@ use crate::machines::{
 use serde::{Deserialize, Serialize};
 use serde_json::Value;
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Clone, Debug, Deserialize, Serialize)]
 pub struct MachineRequest {
     pub name: Option<String>,
     pub config: MachineConfig,
@@ -61,7 +61,7 @@ impl MachineRequest {
     }
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Clone, Debug, Deserialize, Serialize)]
 pub struct MachineResponse {
     pub id: Option<String>,
     pub checks: Option<Vec<CheckResponse>>,
@@ -80,7 +80,7 @@ pub struct MachineResponse {
     pub updated_at: Option<String>,
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Clone, Debug, Deserialize, Serialize)]
 pub struct EventResponse {
     pub id: Option<String>,
     pub request: Option<Value>,
@@ -90,7 +90,7 @@ pub struct EventResponse {
     pub event_type: Option<String>,
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Clone, Debug, Deserialize, Serialize)]
 #[serde(rename_all = "lowercase")]
 pub enum HostStatusEnum {
     Ok,
@@ -98,7 +98,7 @@ pub enum HostStatusEnum {
     Unreachable,
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Clone, Debug, Deserialize, Serialize)]
 pub struct ImageRef {
     pub digest: Option<String>,
     pub labels: Option<Value>,
@@ -107,7 +107,7 @@ pub struct ImageRef {
     pub tag: Option<String>,
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Clone, Debug, Deserialize, Serialize)]
 pub struct CheckResponse {
     pub name: Option<String>,
     pub output: Option<String>,
@@ -115,7 +115,7 @@ pub struct CheckResponse {
     pub updated_at: Option<String>,
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Clone, Debug, Deserialize, Serialize)]
 struct CreateMachinesResponse {
     machines: Vec<MachineResponse>,
 }

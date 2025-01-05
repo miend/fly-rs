@@ -1,7 +1,7 @@
 use crate::machines::TimeoutConfig;
 use serde::{Deserialize, Serialize};
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Clone, Debug, Deserialize, Serialize)]
 pub struct InitConfig {
     pub cmd: Option<Vec<String>>,
     pub entrypoint: Option<Vec<String>>,
@@ -11,7 +11,7 @@ pub struct InitConfig {
     pub tty: Option<bool>,
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Clone, Debug, Deserialize, Serialize)]
 pub struct MountConfig {
     pub add_size_gb: Option<u64>,
     pub encrypted: Option<bool>,
@@ -23,7 +23,7 @@ pub struct MountConfig {
     pub volume: String,
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Clone, Debug, Deserialize, Serialize)]
 pub struct FileConfig {
     pub guest_path: String,
     pub mode: Option<u32>,
@@ -31,7 +31,7 @@ pub struct FileConfig {
     pub secret_name: Option<String>,
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Clone, Debug, Deserialize, Serialize)]
 pub struct StaticConfig {
     pub guest_path: String,
     pub url_prefix: String,
@@ -39,13 +39,13 @@ pub struct StaticConfig {
     pub tigris_bucket: Option<String>,
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Clone, Debug, Deserialize, Serialize)]
 pub struct MetricsConfig {
     pub port: u16,
     pub path: String,
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Clone, Debug, Deserialize, Serialize)]
 pub struct StopConfig {
     pub signal: Option<String>,
     pub timeout: Option<TimeoutConfig>,

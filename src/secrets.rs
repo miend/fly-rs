@@ -4,7 +4,7 @@ use serde::{Deserialize, Serialize};
 use std::error::Error;
 use tracing::debug;
 
-#[derive(Debug, Deserialize, Serialize)]
+#[derive(Clone, Debug, Deserialize, Serialize)]
 pub struct Secret {
     pub label: String,
     pub publickey: Vec<i32>,
@@ -12,7 +12,7 @@ pub struct Secret {
     pub stype: String,
 }
 
-#[derive(Debug, Serialize)]
+#[derive(Clone, Debug, Deserialize, Serialize)]
 pub struct SecretValue {
     pub value: Vec<i32>,
 }

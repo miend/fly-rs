@@ -1,6 +1,6 @@
 use serde::{Deserialize, Serialize};
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Clone, Debug, Deserialize, Serialize)]
 pub struct DnsConfig {
     pub dns_forward_rules: Option<Vec<DnsForwardRule>>,
     pub hostname: Option<String>,
@@ -11,10 +11,9 @@ pub struct DnsConfig {
     pub skip_registration: Option<bool>,
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Clone, Debug, Deserialize, Serialize)]
 pub struct DnsForwardRule {
     pub source: String,
     pub destination: String,
     pub protocol: Option<String>,
 }
-

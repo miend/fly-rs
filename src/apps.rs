@@ -3,19 +3,19 @@ use reqwest::Client;
 use serde::{Deserialize, Serialize};
 use std::error::Error;
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Clone, Debug, Deserialize, Serialize)]
 pub struct AppResponse {
     pub id: String,
     pub created_at: u64,
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Clone, Debug, Deserialize, Serialize)]
 struct AppsResponse {
     pub total_apps: u64,
     pub apps: Vec<App>,
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Clone, Debug, Deserialize, Serialize)]
 pub struct App {
     pub id: String,
     pub name: String,
@@ -23,13 +23,13 @@ pub struct App {
     pub network: String,
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Clone, Debug, Deserialize, Serialize)]
 pub struct Organization {
     pub name: String,
     pub slug: String,
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Clone, Debug, Deserialize, Serialize)]
 pub struct CreateAppRequest {
     pub app_name: String,
     pub org_slug: String,
