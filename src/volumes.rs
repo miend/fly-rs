@@ -4,7 +4,7 @@ use serde::{Deserialize, Serialize};
 use std::error::Error;
 use tracing::debug;
 
-#[derive(Debug, Deserialize, Serialize)]
+#[derive(Clone, Debug, Deserialize, Serialize)]
 pub struct Volume {
     pub attached_alloc_id: Option<String>,
     pub attached_machine_id: Option<String>,
@@ -26,7 +26,7 @@ pub struct Volume {
     pub zone: Option<String>,
 }
 
-#[derive(Debug, Serialize)]
+#[derive(Clone, Debug, Deserialize, Serialize)]
 pub struct Compute {
     pub cpu_kind: Option<String>,
     pub cpus: Option<u32>,
@@ -76,7 +76,7 @@ impl Compute {
     }
 }
 
-#[derive(Debug, Serialize)]
+#[derive(Clone, Debug, Deserialize, Serialize)]
 pub struct CreateVolumeRequest {
     pub name: String,
     pub region: MachineRegions,
@@ -176,18 +176,18 @@ impl CreateVolumeRequestBuilder {
     }
 }
 
-#[derive(Debug, Serialize)]
+#[derive(Clone, Debug, Deserialize, Serialize)]
 pub struct UpdateVolumeRequest {
     pub auto_backup_enabled: bool,
     pub snapshot_retention: u64,
 }
 
-#[derive(Debug, Serialize)]
+#[derive(Clone, Debug, Deserialize, Serialize)]
 pub struct ExtendVolumeRequest {
     pub size_gb: u64,
 }
 
-#[derive(Debug, Deserialize)]
+#[derive(Clone, Debug, Deserialize, Serialize)]
 pub struct Snapshot {
     pub created_at: String,
     pub digest: String,

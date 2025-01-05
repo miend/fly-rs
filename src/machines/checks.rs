@@ -1,7 +1,7 @@
 use crate::machines::TimeoutConfig;
 use serde::{Deserialize, Serialize};
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Clone, Debug, Deserialize, Serialize)]
 pub struct Checks {
     pub grace_period: Option<TimeoutConfig>,
     pub headers: Option<Vec<Header>>,
@@ -41,28 +41,28 @@ impl Checks {
     }
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Clone, Debug, Deserialize, Serialize)]
 #[serde(rename_all = "lowercase")]
 pub enum CheckKind {
     Informational,
     Readiness,
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Clone, Debug, Deserialize, Serialize)]
 #[serde(rename_all = "lowercase")]
 pub enum CheckType {
     Tcp,
     Http,
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Clone, Debug, Deserialize, Serialize)]
 #[serde(rename_all = "lowercase")]
 pub enum Protocol {
     Http,
     Https,
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Clone, Debug, Deserialize, Serialize)]
 pub struct Header {
     pub name: String,
     pub values: Vec<String>,

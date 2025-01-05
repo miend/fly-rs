@@ -6,7 +6,7 @@ use crate::machines::{
 use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Clone, Debug, Deserialize, Serialize)]
 #[serde(rename_all = "lowercase")]
 pub enum MachineState {
     Started,
@@ -27,7 +27,7 @@ impl std::fmt::Display for MachineState {
     }
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Clone, Debug, Deserialize, Serialize)]
 pub struct MachineConfig {
     pub image: String,
     pub guest: Option<GuestConfig>,

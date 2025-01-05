@@ -1,6 +1,6 @@
 use serde::{Deserialize, Serialize};
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Clone, Debug, Deserialize, Serialize)]
 pub struct GuestConfig {
     pub cpu_kind: Option<CpuKind>,
     pub cpus: Option<u64>,
@@ -27,7 +27,7 @@ impl Default for GuestConfig {
 ///
 /// ### For detailed pricing information:
 /// - Please refer to [Fly.io's pricing page](https://fly.io/docs/about/pricing/)
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Clone, Debug, Deserialize, Serialize)]
 #[serde(rename_all = "lowercase")]
 pub enum CpuKind {
     // /// Shared CPU with 1 vCPU.
@@ -72,7 +72,7 @@ pub enum CpuKind {
 ///
 /// ### For detailed pricing information:
 /// - Please refer to [Fly.io's pricing page](https://fly.io/docs/about/pricing/)
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Clone, Debug, Deserialize, Serialize)]
 #[serde(rename_all = "lowercase")]
 pub enum GpuKind {
     A10,
@@ -86,7 +86,7 @@ pub enum GpuKind {
     A10080GSXM,
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Clone, Debug, Deserialize, Serialize)]
 pub struct RestartPolicy {
     pub gpu_bid_price: Option<f64>,
     pub max_retries: Option<u32>,
@@ -103,7 +103,7 @@ impl Default for RestartPolicy {
     }
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Clone, Debug, Deserialize, Serialize)]
 #[serde(rename_all = "lowercase")]
 pub enum RestartPolicyEnum {
     No,
@@ -112,7 +112,7 @@ pub enum RestartPolicyEnum {
     SpotPrice,
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Clone, Debug, Deserialize, Serialize)]
 pub struct FileConfig {
     pub guest_path: String,
     pub mode: Option<u32>,

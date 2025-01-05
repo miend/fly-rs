@@ -24,7 +24,7 @@ pub use system::{FileConfig, InitConfig, MetricsConfig, MountConfig, StaticConfi
 
 use serde::{Deserialize, Serialize};
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Clone, Debug, Deserialize, Serialize)]
 #[serde(rename_all = "lowercase")]
 pub struct TimeoutConfig {
     pub duration: u64,
