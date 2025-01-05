@@ -108,6 +108,7 @@ impl Default for RestartPolicy {
 pub enum RestartPolicyEnum {
     No,
     Always,
+    #[serde(rename = "on-failure")]
     OnFailure,
     SpotPrice,
 }
