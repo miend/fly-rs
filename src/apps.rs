@@ -35,6 +35,7 @@ pub struct CreateAppRequest {
     pub org_slug: String,
 }
 
+#[derive(Clone, Debug)]
 pub struct AppManager {
     client: Client,
     api_token: String,

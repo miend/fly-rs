@@ -55,6 +55,7 @@ use reqwest::Client;
 
 const API_BASE_URL: &str = "https://api.machines.dev/v1";
 
+#[derive(Clone, Debug)]
 pub struct FlyControl {
     #[cfg(feature = "apps")]
     pub apps: apps::AppManager,
