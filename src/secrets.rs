@@ -23,6 +23,7 @@ impl SecretValue {
     }
 }
 
+#[derive(Clone, Debug)]
 pub struct SecretsManager {
     client: Client,
     api_token: String,

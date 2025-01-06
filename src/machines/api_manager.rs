@@ -6,6 +6,7 @@ use reqwest::Client;
 use std::error::Error;
 use tracing::debug;
 
+#[derive(Clone, Debug)]
 pub struct MachineManager {
     client: Client,
     api_token: String,

@@ -197,6 +197,7 @@ pub struct Snapshot {
     pub status: String,
 }
 
+#[derive(Clone, Debug)]
 pub struct VolumeManager {
     client: Client,
     api_token: String,
