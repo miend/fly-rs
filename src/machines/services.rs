@@ -1,10 +1,12 @@
-use serde::{Deserialize, Serialize};
+use serde::{Deserialize, Deserializer, Serialize};
 use std::collections::HashMap;
 
 #[derive(Clone, Debug, Deserialize, Serialize)]
 pub struct ServiceConfig {
     pub autostart: Option<bool>,
-    pub autostop: Option<String>,
+    #[serde(default)]
+    #[serde(deserialize_with = "deserialize_autostop")]
+    pub autostop: Option<AutostopEnum>,
     pub concurrency: Option<ConcurrencyConfig>,
     pub ports: Option<Vec<MachinePort>>,
     pub internal_port: Option<u16>,
@@ -67,4 +69,27 @@ pub struct TlsOptions {
     pub alpn: Option<Vec<String>>,
     pub default_self_signed: Option<bool>,
     pub versions: Option<Vec<String>>,
+}
+
+fn deserialize_autostop<'de, D>(deserializer: D) -> Result<Option<AutostopEnum>, D::Error>
+where
+    D: Deserializer<'de>,
+{
+    let value: serde_json::Value = Deserialize::deserialize(deserializer)?;
+    match value {
+        // Older fly apps will have boolean values in their config
+        serde_json::Value::Bool(false) => Ok(Some(AutostopEnum::Off)),
+        serde_json::Value::Bool(true) => Ok(Some(AutostopEnum::Stop)),
+        // Newer fly apps use the string variant
+        serde_json::Value::String(ref s) if s.eq_ignore_ascii_case("off") => {
+            Ok(Some(AutostopEnum::Off))
+        }
+        serde_json::Value::String(ref s) if s.eq_ignore_ascii_case("stop") => {
+            Ok(Some(AutostopEnum::Stop))
+        }
+        serde_json::Value::String(ref s) if s.eq_ignore_ascii_case("suspend") => {
+            Ok(Some(AutostopEnum::Suspend))
+        }
+        _ => Err(serde::de::Error::custom("Invalid value for AutostopEnum")),
+    }
 }
