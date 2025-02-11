@@ -6,6 +6,8 @@ use reqwest::Client;
 use std::error::Error;
 use tracing::debug;
 
+use super::endpoints::MachineListRequest;
+
 #[derive(Clone, Debug)]
 pub struct MachineManager {
     client: Client,
@@ -47,12 +49,17 @@ impl MachineManager {
         }
     }
 
-    pub async fn list(&self, app_name: &str) -> Result<Vec<MachineResponse>, Box<dyn Error>> {
+    pub async fn list(
+        &self,
+        app_name: &str,
+        request_data: Option<MachineListRequest>,
+    ) -> Result<Vec<MachineResponse>, Box<dyn Error>> {
         let url = format!("{}/apps/{}/machines", API_BASE_URL, app_name);
 
         let response = self
             .client
             .get(&url)
+            .query(&request_data)
             .bearer_auth(&self.api_token)
             .send()
             .await?;

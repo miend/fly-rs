@@ -9,6 +9,11 @@ use serde::{Deserialize, Serialize};
 use serde_json::Value;
 
 #[derive(Clone, Debug, Deserialize, Serialize)]
+pub struct MachineListRequest {
+    pub region: Option<MachineRegions>,
+}
+
+#[derive(Clone, Debug, Deserialize, Serialize)]
 pub struct MachineRequest {
     pub name: Option<String>,
     pub config: MachineConfig,

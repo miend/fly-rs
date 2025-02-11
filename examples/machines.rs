@@ -47,7 +47,7 @@ async fn main() -> Result<(), Box<dyn Error>> {
         .await?;
 
     // list machines
-    fly.machines.list(app_name).await?;
+    fly.machines.list(app_name, None).await?;
 
     // stop/start machine
     fly.machines.stop(app_name, did, iid).await?;
