@@ -33,7 +33,7 @@ async fn main() -> Result<(), Box<dyn Error>> {
             machines::MachineRequest::new(
                 machines::MachineConfig::builder().image(app_image).build(),
                 Some(machine_id.to_string()),
-                Some(machines::MachineRegions::Iad),
+                Some(machines::MachineRegion::Iad),
             ),
         )
         .await?;
@@ -81,7 +81,7 @@ async fn main() -> Result<(), Box<dyn Error>> {
             machines::MachineRequest::new(
                 machines::MachineConfig::builder().image(app_image).build(),
                 Some("foo".to_string()),
-                Some(machines::MachineRegions::Ams),
+                Some(machines::MachineRegion::Ams),
             ),
         )
         .await?;

@@ -17,7 +17,7 @@ pub use networking::{DnsConfig, DnsForwardRule};
 pub use process::{
     CommandResponse, EnvVarConfig, FieldRefEnum, ProcessConfig, ProcessResponse, SecretConfig,
 };
-pub use regions::MachineRegions;
+pub use regions::MachineRegion;
 pub use resources::{CpuKind, GpuKind, GuestConfig, RestartPolicy, RestartPolicyEnum};
 pub use services::ServiceConfig;
 pub use system::{FileConfig, InitConfig, MetricsConfig, MountConfig, StaticConfig, StopConfig};

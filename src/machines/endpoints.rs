@@ -1,6 +1,6 @@
 use crate::machines::{
     MachineConfig,
-    MachineRegions,
+    MachineRegion,
     // Checks, DnsConfig, FileConfig, GuestConfig, Header, InitConfig,
     // MetricsConfig, MountConfig, ProcessConfig, RestartPolicy, ServiceConfig, StaticConfig,
     // StopConfig, TimeoutConfig,
@@ -10,14 +10,14 @@ use serde_json::Value;
 
 #[derive(Clone, Debug, Deserialize, Serialize)]
 pub struct MachineListRequest {
-    pub region: Option<MachineRegions>,
+    pub region: Option<MachineRegion>,
 }
 
 #[derive(Clone, Debug, Deserialize, Serialize)]
 pub struct MachineRequest {
     pub name: Option<String>,
     pub config: MachineConfig,
-    pub region: Option<MachineRegions>,
+    pub region: Option<MachineRegion>,
     pub lease_ttl: Option<u64>,
     pub lsvd: Option<bool>,
     pub skip_launch: Option<bool>,
@@ -25,11 +25,7 @@ pub struct MachineRequest {
 }
 
 impl MachineRequest {
-    pub fn new(
-        config: MachineConfig,
-        name: Option<String>,
-        region: Option<MachineRegions>,
-    ) -> Self {
+    pub fn new(config: MachineConfig, name: Option<String>, region: Option<MachineRegion>) -> Self {
         Self {
             name: name,
             config,
@@ -80,7 +76,7 @@ pub struct MachineResponse {
     pub name: Option<String>,
     pub nonce: Option<String>,
     pub private_ip: Option<String>,
-    pub region: Option<String>,
+    pub region: Option<MachineRegion>,
     pub state: Option<String>,
     pub updated_at: Option<String>,
 }

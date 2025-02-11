@@ -19,7 +19,7 @@ let response = fly
         machines::MachineRequest::new(
             machines::MachineConfig::builder().image(app_image).build(),
             Some(machine_id.to_string()),
-            Some(machines::MachineRegions::Iad),
+            Some(machines::MachineRegion::Iad),
         ),
     )
     .await?;
@@ -46,7 +46,7 @@ let resp = fly
     .volumes
     .create_volume(
         app_name,
-        volumes::CreateVolumeRequest::builder(vol_name, machines::MachineRegions::Ams, 10)
+        volumes::CreateVolumeRequest::builder(vol_name, machines::MachineRegion::Ams, 10)
             .build(),
     )
     .await?;
@@ -64,26 +64,33 @@ fly.secrets
 ```
 
 ## Running examples
+
 1. ensure you have you org key env var set as FLY_ORG_TOKEN
 2. call the examples passing in the first arg as the org slug e.g.:
 
-```bash 
+```bash
 cargo run --example machines org_slug
 ```
 
-## Notice 
+## Notice
+
 Fly API is still a work in progress so things don't always work. Noteably:
+
 - update machines request successfully called but doesn't update
 - no docs on secret_types so secrets is not the most useful atm
 
 ## Endpoints not yet available
+
 I didn't need these machine endpoints, so please open an issue if you need any of these:
+
 - cordon, uncordon_machine, get_lease, create_lease, release_lease
 - get, list_versions, get_metadata, update_metadata, delete_metadata
 - signal_machine, suspend_machine
 
 ## Contributing
+
 Contributions are welcome! Feel free to open issues or submit pull requests to improve the SDK.
 
 ## License
+
 This project is licensed under the MIT License.
