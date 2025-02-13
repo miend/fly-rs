@@ -91,7 +91,7 @@ pub struct EventResponse {
     pub event_type: Option<String>,
 }
 
-#[derive(Clone, Debug, Deserialize, Serialize)]
+#[derive(Clone, Debug, Deserialize, Serialize, PartialEq, Eq, PartialOrd, Ord, Hash)]
 #[serde(rename_all = "lowercase")]
 pub enum HostStatusEnum {
     Ok,

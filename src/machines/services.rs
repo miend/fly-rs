@@ -12,7 +12,7 @@ pub struct ServiceConfig {
     pub internal_port: Option<u16>,
 }
 
-#[derive(Clone, Debug, Deserialize, Serialize)]
+#[derive(Clone, Debug, Deserialize, Serialize, PartialEq, Eq, PartialOrd, Ord, Hash)]
 #[serde(rename_all = "lowercase")]
 pub enum AutostopEnum {
     Off,
@@ -27,7 +27,7 @@ pub struct ConcurrencyConfig {
     pub concurrency_type: Option<String>,
 }
 
-#[derive(Clone, Debug, Deserialize, Serialize)]
+#[derive(Clone, Debug, Deserialize, Serialize, PartialEq, Eq, PartialOrd, Ord, Hash)]
 #[serde(rename_all = "lowercase")]
 pub enum ConcurrencyTypeEnum {
     Connections,

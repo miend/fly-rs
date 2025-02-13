@@ -27,7 +27,7 @@ impl Default for GuestConfig {
 ///
 /// ### For detailed pricing information:
 /// - Please refer to [Fly.io's pricing page](https://fly.io/docs/about/pricing/)
-#[derive(Clone, Debug, Deserialize, Serialize)]
+#[derive(Clone, Debug, Deserialize, Serialize, PartialEq, Eq, PartialOrd, Ord, Hash)]
 #[serde(rename_all = "lowercase")]
 pub enum CpuKind {
     // /// Shared CPU with 1 vCPU.
@@ -72,7 +72,7 @@ pub enum CpuKind {
 ///
 /// ### For detailed pricing information:
 /// - Please refer to [Fly.io's pricing page](https://fly.io/docs/about/pricing/)
-#[derive(Clone, Debug, Deserialize, Serialize)]
+#[derive(Clone, Debug, Deserialize, Serialize, PartialEq, Eq, PartialOrd, Ord, Hash)]
 #[serde(rename_all = "lowercase")]
 pub enum GpuKind {
     A10,
@@ -103,7 +103,7 @@ impl Default for RestartPolicy {
     }
 }
 
-#[derive(Clone, Debug, Deserialize, Serialize)]
+#[derive(Clone, Debug, Deserialize, Serialize, PartialEq, Eq, PartialOrd, Ord, Hash)]
 #[serde(rename_all = "lowercase")]
 pub enum RestartPolicyEnum {
     No,
