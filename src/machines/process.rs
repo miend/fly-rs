@@ -19,7 +19,7 @@ pub struct EnvVarConfig {
     pub field_ref: FieldRefEnum,
 }
 
-#[derive(Clone, Debug, Deserialize, Serialize)]
+#[derive(Clone, Debug, Deserialize, Serialize, PartialEq, Eq, PartialOrd, Ord, Hash)]
 #[serde(rename_all = "lowercase")]
 pub enum FieldRefEnum {
     Id,

@@ -27,7 +27,7 @@ async fn main() -> Result<(), Box<dyn Error>> {
         .volumes
         .create_volume(
             app_name,
-            volumes::CreateVolumeRequest::builder(vol_name, machines::MachineRegions::Ams, 10)
+            volumes::CreateVolumeRequest::builder(vol_name, machines::MachineRegion::Ams, 10)
                 .build(),
         )
         .await?;

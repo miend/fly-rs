@@ -1,8 +1,8 @@
 use serde::{Deserialize, Serialize};
 
-#[derive(Clone, Debug, Deserialize, Serialize)]
+#[derive(Clone, Copy, Debug, Deserialize, Serialize, PartialEq, Eq, PartialOrd, Ord, Hash)]
 #[serde(rename_all = "lowercase")]
-pub enum MachineRegions {
+pub enum MachineRegion {
     Ams, // Amsterdam, Netherlands
     Arn, // Stockholm, Sweden
     Atl, // Atlanta, Georgia (US)

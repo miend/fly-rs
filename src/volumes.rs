@@ -1,4 +1,4 @@
-use crate::{machines::MachineRegions, API_BASE_URL};
+use crate::{machines::MachineRegion, API_BASE_URL};
 use reqwest::Client;
 use serde::{Deserialize, Serialize};
 use std::error::Error;
@@ -19,7 +19,7 @@ pub struct Volume {
     pub host_status: Option<String>,
     pub id: Option<String>,
     pub name: Option<String>,
-    pub region: Option<String>,
+    pub region: Option<MachineRegion>,
     pub size_gb: Option<u64>,
     pub snapshot_retention: Option<u64>,
     pub state: Option<String>,
@@ -79,7 +79,7 @@ impl Compute {
 #[derive(Clone, Debug, Deserialize, Serialize)]
 pub struct CreateVolumeRequest {
     pub name: String,
-    pub region: MachineRegions,
+    pub region: MachineRegion,
     pub size_gb: u64,
     pub encrypted: bool,
     pub fstype: String,
@@ -91,14 +91,14 @@ pub struct CreateVolumeRequest {
 }
 
 impl CreateVolumeRequest {
-    pub fn builder(name: &str, region: MachineRegions, size_gb: u64) -> CreateVolumeRequestBuilder {
+    pub fn builder(name: &str, region: MachineRegion, size_gb: u64) -> CreateVolumeRequestBuilder {
         CreateVolumeRequestBuilder::new(name.to_string(), region, size_gb)
     }
 }
 
 pub struct CreateVolumeRequestBuilder {
     name: String,
-    region: MachineRegions,
+    region: MachineRegion,
     size_gb: u64,
     encrypted: bool,
     fstype: String,
@@ -110,7 +110,7 @@ pub struct CreateVolumeRequestBuilder {
 }
 
 impl CreateVolumeRequestBuilder {
-    pub fn new(name: String, region: MachineRegions, size_gb: u64) -> Self {
+    pub fn new(name: String, region: MachineRegion, size_gb: u64) -> Self {
         Self {
             name,
             region,
