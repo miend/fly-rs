@@ -2,7 +2,7 @@ use crate::machines::{
     MachineConfig,
     MachineRegion,
     // Checks, DnsConfig, FileConfig, GuestConfig, Header, InitConfig,
-    // MetricsConfig, MountConfig, ProcessConfig, RestartPolicy, ServiceConfig, StaticConfig,
+    // MetricsConfig, MountConfig, ProcessConfig, MachineRestart, ServiceConfig, StaticConfig,
     // StopConfig, TimeoutConfig,
 };
 use serde::{Deserialize, Serialize};
@@ -69,7 +69,7 @@ pub struct MachineResponse {
     pub config: Option<MachineConfig>,
     pub created_at: Option<String>,
     pub events: Option<Vec<EventResponse>>,
-    pub host_status: Option<HostStatusEnum>,
+    pub host_status: Option<HostStatus>,
     pub image_ref: Option<ImageRef>,
     pub incomplete_config: Option<Value>,
     pub instance_id: Option<String>,
@@ -93,7 +93,7 @@ pub struct EventResponse {
 
 #[derive(Clone, Debug, Deserialize, Serialize, PartialEq, Eq, PartialOrd, Ord, Hash)]
 #[serde(rename_all = "lowercase")]
-pub enum HostStatusEnum {
+pub enum HostStatus {
     Ok,
     Unknown,
     Unreachable,

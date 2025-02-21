@@ -1,6 +1,6 @@
 use crate::machines::{
-    Checks, CpuKind, DnsConfig, FileConfig, GpuKind, GuestConfig, InitConfig, MetricsConfig,
-    MountConfig, ProcessConfig, RestartPolicy, RestartPolicyEnum, ServiceConfig, StaticConfig,
+    Checks, CpuKind, DnsConfig, FileConfig, GpuKind, GuestConfig, InitConfig, MachineRestart,
+    MetricsConfig, MountConfig, ProcessConfig, RestartPolicy, ServiceConfig, StaticConfig,
     StopConfig,
 };
 use serde::{Deserialize, Serialize};
@@ -36,7 +36,7 @@ pub struct MachineConfig {
     pub env: Option<HashMap<String, String>>,
     pub processes: Option<Vec<ProcessConfig>>,
     pub mounts: Option<Vec<MountConfig>>,
-    pub restart: Option<RestartPolicy>,
+    pub restart: Option<MachineRestart>,
     pub checks: Option<Checks>,
     pub dns: Option<DnsConfig>,
     pub files: Option<Vec<FileConfig>>,
@@ -83,7 +83,7 @@ impl MachineConfig {
         image: String,
         auto_destroy: Option<bool>,
         guest: Option<GuestConfig>,
-        restart: Option<RestartPolicy>,
+        restart: Option<MachineRestart>,
         env: Option<HashMap<String, String>>,
         processes: Option<Vec<ProcessConfig>>,
         mounts: Option<Vec<MountConfig>>,
@@ -131,7 +131,7 @@ impl MachineConfigBuilder {
             config: MachineConfig {
                 image: "ubuntu:22.04".to_string(),
                 auto_destroy: Some(false),
-                restart: Some(RestartPolicy::default()),
+                restart: Some(MachineRestart::default()),
                 guest: Some(GuestConfig::default()),
                 ..Default::default()
             },
@@ -150,12 +150,12 @@ impl MachineConfigBuilder {
 
     pub fn restart_policy(
         mut self,
-        policy: RestartPolicyEnum,
+        policy: RestartPolicy,
         max_retries: Option<u32>,
         gpu_bid_price: Option<f64>,
     ) -> Self {
-        self.config.restart = Some(RestartPolicy {
-            policy: policy,
+        self.config.restart = Some(MachineRestart {
+            policy,
             max_retries,
             gpu_bid_price,
         });

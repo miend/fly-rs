@@ -87,25 +87,25 @@ pub enum GpuKind {
 }
 
 #[derive(Clone, Debug, Deserialize, Serialize)]
-pub struct RestartPolicy {
+pub struct MachineRestart {
     pub gpu_bid_price: Option<f64>,
     pub max_retries: Option<u32>,
-    pub policy: RestartPolicyEnum,
+    pub policy: RestartPolicy,
 }
 
-impl Default for RestartPolicy {
+impl Default for MachineRestart {
     fn default() -> Self {
         Self {
             gpu_bid_price: None,
             max_retries: None,
-            policy: RestartPolicyEnum::No,
+            policy: RestartPolicy::No,
         }
     }
 }
 
 #[derive(Clone, Debug, Deserialize, Serialize, PartialEq, Eq, PartialOrd, Ord, Hash)]
 #[serde(rename_all = "lowercase")]
-pub enum RestartPolicyEnum {
+pub enum RestartPolicy {
     No,
     Always,
     #[serde(rename = "on-failure")]

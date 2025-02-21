@@ -16,12 +16,12 @@ pub struct ProcessConfig {
 #[derive(Clone, Debug, Deserialize, Serialize)]
 pub struct EnvVarConfig {
     pub env_var: String,
-    pub field_ref: FieldRefEnum,
+    pub field_ref: FieldRef,
 }
 
 #[derive(Clone, Debug, Deserialize, Serialize, PartialEq, Eq, PartialOrd, Ord, Hash)]
 #[serde(rename_all = "lowercase")]
-pub enum FieldRefEnum {
+pub enum FieldRef {
     Id,
     Version,
     AppName,

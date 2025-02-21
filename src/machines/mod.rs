@@ -15,10 +15,10 @@ pub use endpoints::{EventResponse, MachineRequest, MachineResponse};
 pub use machine::{MachineConfig, MachineState};
 pub use networking::{DnsConfig, DnsForwardRule};
 pub use process::{
-    CommandResponse, EnvVarConfig, FieldRefEnum, ProcessConfig, ProcessResponse, SecretConfig,
+    CommandResponse, EnvVarConfig, FieldRef, ProcessConfig, ProcessResponse, SecretConfig,
 };
 pub use regions::MachineRegion;
-pub use resources::{CpuKind, GpuKind, GuestConfig, RestartPolicy, RestartPolicyEnum};
+pub use resources::{CpuKind, GpuKind, GuestConfig, MachineRestart, RestartPolicy};
 pub use services::ServiceConfig;
 pub use system::{FileConfig, InitConfig, MetricsConfig, MountConfig, StaticConfig, StopConfig};
 
@@ -41,17 +41,19 @@ impl<'de> Deserialize<'de> for TimeoutConfig {
     where
         D: Deserializer<'de>,
     {
-        #[derive(Deserialize, Serialize, Debug)]
+        /// Enum used to deserialize fly machine timeout durations, which could be defined as either
+        /// seconds (integer), or Golang duration string.
+        #[derive(Deserialize, Debug)]
         #[serde(untagged)]
-        enum TimeoutConfigEnum {
-            String(String),
-            Object { duration: u64 },
+        enum TimeoutDurationType {
+            GoDuration(String),
+            Seconds(u64),
         }
 
-        let intermediate = TimeoutConfigEnum::deserialize(deserializer)?;
+        let intermediate = TimeoutDurationType::deserialize(deserializer)?;
 
         match intermediate {
-            TimeoutConfigEnum::String(s) => {
+            TimeoutDurationType::GoDuration(s) => {
                 let (num_str, unit) = s.split_at(s.len() - 1);
                 let num: u64 = num_str.parse().map_err(de::Error::custom)?;
 
@@ -65,7 +67,7 @@ impl<'de> Deserialize<'de> for TimeoutConfig {
 
                 Ok(TimeoutConfig::new(duration))
             }
-            TimeoutConfigEnum::Object { duration } => Ok(TimeoutConfig::new(duration)),
+            TimeoutDurationType::Seconds(duration) => Ok(TimeoutConfig::new(duration)),
         }
     }
 }
