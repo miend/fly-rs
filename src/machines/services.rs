@@ -9,6 +9,7 @@ pub struct ServiceConfig {
     pub autostop: Option<AutostopSetting>,
     pub concurrency: Option<ConcurrencyConfig>,
     pub ports: Option<Vec<MachinePort>>,
+    pub protocol: Option<NetworkProtocol>,
     pub internal_port: Option<u16>,
 }
 
@@ -32,6 +33,13 @@ pub struct ConcurrencyConfig {
 pub enum ConcurrencyType {
     Connections,
     Requests,
+}
+
+#[derive(Clone, Debug, Deserialize, Serialize)]
+#[serde(rename_all = "lowercase")]
+pub enum NetworkProtocol {
+    Tcp,
+    Udp,
 }
 
 #[derive(Clone, Debug, Deserialize, Serialize)]
