@@ -1,6 +1,7 @@
 use crate::machines::{
     MachineConfig,
     MachineRegion,
+    MachineState,
     // Checks, DnsConfig, FileConfig, GuestConfig, Header, InitConfig,
     // MetricsConfig, MountConfig, ProcessConfig, MachineRestart, ServiceConfig, StaticConfig,
     // StopConfig, TimeoutConfig,
@@ -27,9 +28,9 @@ pub struct MachineRequest {
 impl MachineRequest {
     pub fn new(config: MachineConfig, name: Option<String>, region: Option<MachineRegion>) -> Self {
         Self {
-            name: name,
+            name,
             config,
-            region: region,
+            region,
             lease_ttl: None,
             lsvd: None,
             skip_launch: None,
@@ -77,7 +78,7 @@ pub struct MachineResponse {
     pub nonce: Option<String>,
     pub private_ip: Option<String>,
     pub region: Option<MachineRegion>,
-    pub state: Option<String>,
+    pub state: Option<MachineState>,
     pub updated_at: Option<String>,
 }
 

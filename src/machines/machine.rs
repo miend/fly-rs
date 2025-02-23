@@ -9,19 +9,34 @@ use std::collections::HashMap;
 #[derive(Clone, Debug, Deserialize, Serialize, PartialEq, Eq, PartialOrd, Ord, Hash)]
 #[serde(rename_all = "lowercase")]
 pub enum MachineState {
+    Created,
+    Starting,
     Started,
+    Stopping,
     Stopped,
+    Suspending,
     Suspended,
+    Replacing,
+    Replaced,
+    Destroying,
     Destroyed,
 }
 
 impl std::fmt::Display for MachineState {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        use MachineState::*;
         let state_str = match self {
-            MachineState::Started => "started",
-            MachineState::Stopped => "stopped",
-            MachineState::Suspended => "suspended",
-            MachineState::Destroyed => "destroyed",
+            Created => "created",
+            Starting => "starting",
+            Started => "started",
+            Stopping => "stopping",
+            Stopped => "stopped",
+            Suspending => "suspending",
+            Suspended => "suspended",
+            Replacing => "replacing",
+            Replaced => "replaced",
+            Destroying => "destroying",
+            Destroyed => "destroyed",
         };
         write!(f, "{}", state_str)
     }
