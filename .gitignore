@@ -1,1 +1,5 @@
 /target
+
+# environment settings from https://direnv.net/
+.direnv/
+.envrc

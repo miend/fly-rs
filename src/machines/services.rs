@@ -6,7 +6,7 @@ pub struct ServiceConfig {
     pub autostart: Option<bool>,
     #[serde(default)]
     #[serde(deserialize_with = "deserialize_autostop")]
-    pub autostop: Option<AutostopEnum>,
+    pub autostop: Option<AutostopSetting>,
     pub concurrency: Option<ConcurrencyConfig>,
     pub ports: Option<Vec<MachinePort>>,
     pub internal_port: Option<u16>,
@@ -14,7 +14,7 @@ pub struct ServiceConfig {
 
 #[derive(Clone, Debug, Deserialize, Serialize, PartialEq, Eq, PartialOrd, Ord, Hash)]
 #[serde(rename_all = "lowercase")]
-pub enum AutostopEnum {
+pub enum AutostopSetting {
     Off,
     Stop,
     Suspend,
@@ -29,7 +29,7 @@ pub struct ConcurrencyConfig {
 
 #[derive(Clone, Debug, Deserialize, Serialize, PartialEq, Eq, PartialOrd, Ord, Hash)]
 #[serde(rename_all = "lowercase")]
-pub enum ConcurrencyTypeEnum {
+pub enum ConcurrencyType {
     Connections,
     Requests,
 }
@@ -71,25 +71,27 @@ pub struct TlsOptions {
     pub versions: Option<Vec<String>>,
 }
 
-fn deserialize_autostop<'de, D>(deserializer: D) -> Result<Option<AutostopEnum>, D::Error>
+fn deserialize_autostop<'de, D>(deserializer: D) -> Result<Option<AutostopSetting>, D::Error>
 where
     D: Deserializer<'de>,
 {
     let value: serde_json::Value = Deserialize::deserialize(deserializer)?;
     match value {
         // Older fly apps will have boolean values in their config
-        serde_json::Value::Bool(false) => Ok(Some(AutostopEnum::Off)),
-        serde_json::Value::Bool(true) => Ok(Some(AutostopEnum::Stop)),
+        serde_json::Value::Bool(false) => Ok(Some(AutostopSetting::Off)),
+        serde_json::Value::Bool(true) => Ok(Some(AutostopSetting::Stop)),
         // Newer fly apps use the string variant
         serde_json::Value::String(ref s) if s.eq_ignore_ascii_case("off") => {
-            Ok(Some(AutostopEnum::Off))
+            Ok(Some(AutostopSetting::Off))
         }
         serde_json::Value::String(ref s) if s.eq_ignore_ascii_case("stop") => {
-            Ok(Some(AutostopEnum::Stop))
+            Ok(Some(AutostopSetting::Stop))
         }
         serde_json::Value::String(ref s) if s.eq_ignore_ascii_case("suspend") => {
-            Ok(Some(AutostopEnum::Suspend))
+            Ok(Some(AutostopSetting::Suspend))
         }
-        _ => Err(serde::de::Error::custom("Invalid value for AutostopEnum")),
+        _ => Err(serde::de::Error::custom(
+            "Invalid value for AutostopSetting",
+        )),
     }
 }
