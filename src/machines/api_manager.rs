@@ -203,7 +203,7 @@ impl MachineManager {
         desired_state: MachineState,
         timeout: Option<u64>,
         instance_id: Option<&str>,
-    ) -> Result<MachineResponse, Box<dyn Error>> {
+    ) -> Result<(), Box<dyn Error>> {
         debug!(
             "Waiting for machine {} to reach state: {}",
             machine_id, desired_state
@@ -232,8 +232,7 @@ impl MachineManager {
             .await?;
 
         if response.status().is_success() {
-            let wait_for_state_response: MachineResponse = response.json().await?;
-            Ok(wait_for_state_response)
+            Ok(())
         } else {
             Err(Box::new(std::io::Error::new(
                 std::io::ErrorKind::Other,
