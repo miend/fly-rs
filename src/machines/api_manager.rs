@@ -245,7 +245,6 @@ impl MachineManager {
         &self,
         app_name: &str,
         machine_id: &str,
-        #[allow(unused_variables)] instance_id: &str,
         machine_request: MachineRequest,
     ) -> Result<MachineResponse, Box<dyn Error>> {
         debug!("Updating machine {}", machine_id);
@@ -261,15 +260,6 @@ impl MachineManager {
 
         if response.status().is_success() {
             let machine_response: MachineResponse = response.json().await?;
-
-            // self.wait_for_machine_state(
-            //     app_name,
-            //     machine_id,
-            //     MachineState::Started,
-            //     None,
-            //     Some(instance_id),
-            // )
-            // .await?;
 
             Ok(machine_response)
         } else {
