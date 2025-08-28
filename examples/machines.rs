@@ -77,7 +77,6 @@ async fn main() -> Result<(), Box<dyn Error>> {
         .update_machine(
             app_name,
             did,
-            iid,
             machines::MachineRequest::new(
                 machines::MachineConfig::builder().image(app_image).build(),
                 Some("foo".to_string()),
